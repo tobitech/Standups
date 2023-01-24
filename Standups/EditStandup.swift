@@ -3,9 +3,14 @@ import SwiftUINavigation
 
 class EditStandupModel: ObservableObject {
 	
+	@Published var focus: EditStandupView.Field?
 	@Published var standup: Standup
 	
-	init(standup: Standup) {
+	init(
+		focus: EditStandupView.Field? = .title,
+		standup: Standup
+	) {
+		self.focus = focus
 		self.standup = standup
 		
 		if self.standup.attendees.isEmpty {
@@ -13,9 +18,7 @@ class EditStandupModel: ObservableObject {
 				Attendee(id: Attendee.ID(UUID()), name: "")
 			)
 		}
-		// self.focused = .title
 	}
-	
 	
 	func deleteAttendees(atOffsets indices: IndexSet) {
 		self.standup.attendees.remove(
@@ -26,7 +29,7 @@ class EditStandupModel: ObservableObject {
 				Attendee(id: Attendee.ID(UUID()), name: "")
 			)
 		}
-		// self.focused = .attendee(self.standup.attendees[indices.first!].id)
+		self.focus = .attendee(self.standup.attendees[indices.first!].id)
 	}
 	
 	func addAttendeeButtonTapped() {
@@ -34,7 +37,7 @@ class EditStandupModel: ObservableObject {
 		self.standup.attendees.append(
 			attendee
 		)
-		// self.focused = .attendee(attendee.id)
+		self.focus = .attendee(attendee.id)
 	}
 }
 
@@ -74,20 +77,17 @@ struct EditStandupView: View {
 				}
 				.onDelete { indices in
 					self.model.deleteAttendees(atOffsets: indices)
-					self.focused = .attendee(self.model.standup.attendees[indices.first!].id)
 				}
 				
 				Button("New attendee") {
 					self.model.addAttendeeButtonTapped()
-					self.focused = .attendee(self.model.standup.attendees.last!.id)
 				}
 			} header: {
 				Text("Attendees")
 			}
 		}
-		.onAppear {
-			self.focused = .title
-		}
+		// binds two sources of truths together so that they become a single source of truth.
+		.bind(self.$model.focus, to: self.$focused)
 	}
 }
 
