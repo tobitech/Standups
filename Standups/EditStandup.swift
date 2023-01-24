@@ -1,57 +1,92 @@
 import SwiftUI
 import SwiftUINavigation
 
+class EditStandupModel: ObservableObject {
+	
+	@Published var standup: Standup
+	
+	init(standup: Standup) {
+		self.standup = standup
+		
+		if self.standup.attendees.isEmpty {
+			self.standup.attendees.append(
+				Attendee(id: Attendee.ID(UUID()), name: "")
+			)
+		}
+		// self.focused = .title
+	}
+	
+	
+	func deleteAttendees(atOffsets indices: IndexSet) {
+		self.standup.attendees.remove(
+			atOffsets: indices
+		)
+		if self.standup.attendees.isEmpty {
+			self.standup.attendees.append(
+				Attendee(id: Attendee.ID(UUID()), name: "")
+			)
+		}
+		// self.focused = .attendee(self.standup.attendees[indices.first!].id)
+	}
+	
+	func addAttendeeButtonTapped() {
+		let attendee = Attendee(id: Attendee.ID(UUID()), name: "")
+		self.standup.attendees.append(
+			attendee
+		)
+		// self.focused = .attendee(attendee.id)
+	}
+}
+
 struct EditStandupView: View {
-	@Binding var standup: Standup
+	
+	enum Field: Hashable {
+		case attendee(Attendee.ID)
+		case title
+	}
+	
+	@FocusState var focused: Field?
+	@ObservedObject var model: EditStandupModel
 	
 	var body: some View {
 		Form {
 			Section {
-				TextField("Title", text: self.$standup.title)
+				TextField("Title", text: self.$model.standup.title)
+					.focused(self.$focused, equals: .title)
 				HStack {
 					Slider(
-						value: self.$standup.duration.seconds,
+						value: self.$model.standup.duration.seconds,
 						in: 5...30, step: 1
 					) {
 						Text("Length")
 					}
 					Spacer()
-					Text(self.standup.duration.formatted(.units()))
+					Text(self.model.standup.duration.formatted(.units()))
 				}
-				ThemePicker(selection: self.$standup.theme)
+				ThemePicker(selection: self.$model.standup.theme)
 			} header: {
 				Text("Standup Info")
 			}
 			Section {
-				ForEach(self.$standup.attendees) { $attendee in
+				ForEach(self.$model.standup.attendees) { $attendee in
 					TextField("Name", text: $attendee.name)
+						.focused(self.$focused, equals: .attendee(attendee.id))
 				}
 				.onDelete { indices in
-					self.standup.attendees.remove(
-						atOffsets: indices
-					)
-					if self.standup.attendees.isEmpty {
-						self.standup.attendees.append(
-							Attendee(id: Attendee.ID(UUID()), name: "")
-						)
-					}
+					self.model.deleteAttendees(atOffsets: indices)
+					self.focused = .attendee(self.model.standup.attendees[indices.first!].id)
 				}
 				
 				Button("New attendee") {
-					self.standup.attendees.append(
-						Attendee(id: Attendee.ID(UUID()), name: "")
-					)
+					self.model.addAttendeeButtonTapped()
+					self.focused = .attendee(self.model.standup.attendees.last!.id)
 				}
 			} header: {
 				Text("Attendees")
 			}
 		}
 		.onAppear {
-			if self.standup.attendees.isEmpty {
-				self.standup.attendees.append(
-					Attendee(id: Attendee.ID(UUID()), name: "")
-				)
-			}
+			self.focused = .title
 		}
 	}
 }
@@ -86,7 +121,7 @@ extension Duration {
 struct EditStandup_Previews: PreviewProvider {
 	static var previews: some View {
 		WithState(initialValue: Standup.mock) { $standup in
-			EditStandupView(standup: $standup)
+			EditStandupView(model: EditStandupModel(standup: standup))
 		}
 	}
 }

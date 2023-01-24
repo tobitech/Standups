@@ -6,7 +6,7 @@ final class StandupsListModel: ObservableObject {
 	@Published var standups: [Standup]
 	
 	enum Destination {
-		case add(Standup)
+		case add(EditStandupModel)
 	}
 	
 	init(
@@ -18,7 +18,7 @@ final class StandupsListModel: ObservableObject {
 	}
 	
 	func addStandupButtonTapped() {
-		self.destination = .add(Standup.init(id: Standup.ID(UUID())))
+		self.destination = .add(.init(standup: .init(id: Standup.ID(UUID()))))
 	}
 	
 	func dismissAddStandupButtonTapped() {
@@ -28,7 +28,8 @@ final class StandupsListModel: ObservableObject {
 	func confirmAddStandupButtonTapped() {
 		defer { self.destination = nil } // we upfront say that no matter what happens we want the sheet to go away.
 		
-		guard case var .add(standup) = self.destination else { return }
+		guard case let .add(editStandupModel) = self.destination else { return }
+		var standup = editStandupModel.standup
 		
 		standup.attendees.removeAll { attendee in
 			attendee.name.allSatisfy(\.isWhitespace)
@@ -65,9 +66,9 @@ struct StandupsList: View {
 			.sheet(
 				unwrapping: self.$model.destination,
 				case: /StandupsListModel.Destination.add
-			) { $standup in
+			) { $model in
 				NavigationStack {
-					EditStandupView(standup: $standup)
+					EditStandupView(model: model)
 						.navigationTitle("New standup")
 						.toolbar {
 							ToolbarItem(placement: .cancellationAction) {
