@@ -13,6 +13,7 @@
 		0A965610297FE0B5001BACCC /* StandupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96560F297FE0B5001BACCC /* StandupsTests.swift */; };
 		0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A965628297FE1A7001BACCC /* StandupsList.swift */; };
 		0A96562B297FE24D001BACCC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96562A297FE24D001BACCC /* Models.swift */; };
+		0A96562E297FE34D001BACCC /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 0A96562D297FE34D001BACCC /* Tagged */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A96562E297FE34D001BACCC /* Tagged in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,9 @@
 			dependencies = (
 			);
 			name = Standups;
+			packageProductDependencies = (
+				0A96562D297FE34D001BACCC /* Tagged */,
+			);
 			productName = Standups;
 			productReference = 0A9655FA297FE0B4001BACCC /* Standups.app */;
 			productType = "com.apple.product-type.application";
@@ -168,6 +173,9 @@
 				Base,
 			);
 			mainGroup = 0A9655F1297FE0B4001BACCC;
+			packageReferences = (
+				0A96562C297FE34D001BACCC /* XCRemoteSwiftPackageReference "swift-tagged" */,
+			);
 			productRefGroup = 0A9655FB297FE0B4001BACCC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -491,6 +499,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0A96562C297FE34D001BACCC /* XCRemoteSwiftPackageReference "swift-tagged" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-tagged";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0A96562D297FE34D001BACCC /* Tagged */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A96562C297FE34D001BACCC /* XCRemoteSwiftPackageReference "swift-tagged" */;
+			productName = Tagged;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0A9655F2297FE0B4001BACCC /* Project object */;
 }

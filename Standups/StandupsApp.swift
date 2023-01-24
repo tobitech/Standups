@@ -5,7 +5,7 @@ import SwiftUI
 struct StandupsApp: App {
 	var body: some Scene {
 		WindowGroup {
-			StandupsList()
+			StandupsList(model: StandupsListModel())
 		}
 	}
 }
