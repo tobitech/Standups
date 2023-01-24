@@ -6,7 +6,12 @@ class StandupDetailModel: ObservableObject {
 	@Published var standup: Standup
 	
 	enum Destination {
+		case alert(AlertState<AlertAction>)
 		case meeting(Meeting)
+	}
+	
+	enum AlertAction {
+		 case confirmDeletion
 	}
 	
 	init(
@@ -24,6 +29,25 @@ class StandupDetailModel: ObservableObject {
 	func meetingTapped(_ meeting: Meeting) {
 		self.destination = .meeting(meeting)
 	}
+	
+	func deleteButtonTapped() {
+		self.destination = .alert(.delete)
+	}
+	
+	func alertButtonTapped(_ action: AlertAction) {
+		
+	}
+}
+
+extension AlertState where Action == StandupDetailModel.AlertAction {
+	static let delete = Self(
+		title: TextState("Delete?"),
+			message: TextState("Are you sure you want to delete this meeting?"),
+			buttons: [
+				.destructive(TextState("Yes"), action: .send(.confirmDeletion)),
+				.cancel(TextState("Nevermind"))
+			]
+		)
 }
 
 struct StandupDetailView: View {
@@ -93,22 +117,29 @@ struct StandupDetailView: View {
 			
 			Section {
 				Button("Delete") {
+					self.model.deleteButtonTapped()
 				}
 				.foregroundColor(.red)
 				.frame(maxWidth: .infinity)
 			}
 		}
 		.navigationTitle(self.model.standup.title)
+		.toolbar {
+			Button("Edit") {
+			}
+		}
 		.navigationDestination(
 			unwrapping: self.$model.destination,
 			case: /StandupDetailModel.Destination.meeting,
 			destination: { $meeting in
 				MeetingView(meeting: meeting, standup: self.model.standup)
-			})
-		.toolbar {
-			Button("Edit") {
 			}
-		}
+		)
+		.alert(
+			unwrapping: self.$model.destination,
+			case: /StandupDetailModel.Destination.alert) { action in
+				self.model.alertButtonTapped(action)
+			}
 	}
 }
 
