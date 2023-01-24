@@ -1,9 +1,12 @@
 import SwiftUI
 import SwiftUINavigation
+import XCTestDynamicOverlay
 
 class StandupDetailModel: ObservableObject {
-	@Published var destination: Destination?
+	@Published var destination: Destination? 
 	@Published var standup: Standup
+	
+	var onConfirmDeletion: () -> Void = unimplemented("StandupDetailModel.onConfirmDeletion")
 	
 	enum Destination {
 		case alert(AlertState<AlertAction>)
@@ -35,7 +38,10 @@ class StandupDetailModel: ObservableObject {
 	}
 	
 	func alertButtonTapped(_ action: AlertAction) {
-		
+		switch action {
+		case .confirmDeletion:
+			self.onConfirmDeletion()
+		}
 	}
 }
 

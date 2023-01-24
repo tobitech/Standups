@@ -2,7 +2,9 @@ import SwiftUI
 import SwiftUINavigation
 
 final class StandupsListModel: ObservableObject {
-	@Published var destination: Destination?
+	@Published var destination: Destination? {
+		didSet { self.bind() }
+	}
 	@Published var standups: [Standup]
 	
 	enum Destination {
@@ -16,6 +18,25 @@ final class StandupsListModel: ObservableObject {
 	) {
 		self.destination = destination
 		self.standups = standups
+		self.bind()
+	}
+	
+	private func bind() {
+		switch self.destination {
+		case let .detail(standupDetailModel):
+			standupDetailModel.onConfirmDeletion = { [weak self, id = standupDetailModel.standup.id] in
+				guard let self else { return }
+				
+				withAnimation {
+					self.standups.removeAll { $0.id == id }
+					self.destination = nil
+				}
+			}
+			break
+			
+		case .add, .none:
+			break
+		}
 	}
 	
 	func addStandupButtonTapped() {
@@ -139,7 +160,7 @@ struct TrailingIconLabelStyle: LabelStyle {
 			configuration.icon
 		}
 	}
-} 
+}
 
 extension LabelStyle where Self == TrailingIconLabelStyle {
 	static var trailingIcon: Self { Self() }
