@@ -14,6 +14,8 @@
 		0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A965628297FE1A7001BACCC /* StandupsList.swift */; };
 		0A96562B297FE24D001BACCC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96562A297FE24D001BACCC /* Models.swift */; };
 		0A96562E297FE34D001BACCC /* Tagged in Frameworks */ = {isa = PBXBuildFile; productRef = 0A96562D297FE34D001BACCC /* Tagged */; };
+		0A965631297FE8F9001BACCC /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 0A965630297FE8F9001BACCC /* SwiftUINavigation */; };
+		0A965633297FEB1B001BACCC /* EditStandup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A965632297FEB1B001BACCC /* EditStandup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 		0A96560F297FE0B5001BACCC /* StandupsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsTests.swift; sourceTree = "<group>"; };
 		0A965628297FE1A7001BACCC /* StandupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsList.swift; sourceTree = "<group>"; };
 		0A96562A297FE24D001BACCC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		0A965632297FEB1B001BACCC /* EditStandup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStandup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A965631297FE8F9001BACCC /* SwiftUINavigation in Frameworks */,
 				0A96562E297FE34D001BACCC /* Tagged in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,11 +82,12 @@
 		0A9655FC297FE0B4001BACCC /* Standups */ = {
 			isa = PBXGroup;
 			children = (
+				0A965603297FE0B5001BACCC /* Standups.entitlements */,
+				0A965632297FEB1B001BACCC /* EditStandup.swift */,
+				0A96562A297FE24D001BACCC /* Models.swift */,
 				0A9655FD297FE0B4001BACCC /* StandupsApp.swift */,
 				0A965628297FE1A7001BACCC /* StandupsList.swift */,
-				0A96562A297FE24D001BACCC /* Models.swift */,
 				0A965601297FE0B5001BACCC /* Assets.xcassets */,
-				0A965603297FE0B5001BACCC /* Standups.entitlements */,
 				0A965604297FE0B5001BACCC /* Preview Content */,
 			);
 			path = Standups;
@@ -122,6 +127,7 @@
 			name = Standups;
 			packageProductDependencies = (
 				0A96562D297FE34D001BACCC /* Tagged */,
+				0A965630297FE8F9001BACCC /* SwiftUINavigation */,
 			);
 			productName = Standups;
 			productReference = 0A9655FA297FE0B4001BACCC /* Standups.app */;
@@ -175,6 +181,7 @@
 			mainGroup = 0A9655F1297FE0B4001BACCC;
 			packageReferences = (
 				0A96562C297FE34D001BACCC /* XCRemoteSwiftPackageReference "swift-tagged" */,
+				0A96562F297FE8F9001BACCC /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = 0A9655FB297FE0B4001BACCC /* Products */;
 			projectDirPath = "";
@@ -211,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A96562B297FE24D001BACCC /* Models.swift in Sources */,
+				0A965633297FEB1B001BACCC /* EditStandup.swift in Sources */,
 				0A9655FE297FE0B4001BACCC /* StandupsApp.swift in Sources */,
 				0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */,
 			);
@@ -509,6 +517,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		0A96562F297FE8F9001BACCC /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -516,6 +532,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0A96562C297FE34D001BACCC /* XCRemoteSwiftPackageReference "swift-tagged" */;
 			productName = Tagged;
+		};
+		0A965630297FE8F9001BACCC /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0A96562F297FE8F9001BACCC /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = SwiftUINavigation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
