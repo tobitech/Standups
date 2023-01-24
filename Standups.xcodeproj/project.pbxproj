@@ -8,21 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0A9655FE297FE0B4001BACCC /* StandupsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9655FD297FE0B4001BACCC /* StandupsApp.swift */; };
-		0A965600297FE0B4001BACCC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9655FF297FE0B4001BACCC /* ContentView.swift */; };
 		0A965602297FE0B5001BACCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A965601297FE0B5001BACCC /* Assets.xcassets */; };
 		0A965606297FE0B5001BACCC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A965605297FE0B5001BACCC /* Preview Assets.xcassets */; };
 		0A965610297FE0B5001BACCC /* StandupsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96560F297FE0B5001BACCC /* StandupsTests.swift */; };
+		0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A965628297FE1A7001BACCC /* StandupsList.swift */; };
+		0A96562B297FE24D001BACCC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96562A297FE24D001BACCC /* Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		0A96560C297FE0B5001BACCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A9655F2297FE0B4001BACCC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A9655F9297FE0B4001BACCC;
-			remoteInfo = Standups;
-		};
-		0A965616297FE0B5001BACCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A9655F2297FE0B4001BACCC /* Project object */;
 			proxyType = 1;
@@ -34,13 +28,13 @@
 /* Begin PBXFileReference section */
 		0A9655FA297FE0B4001BACCC /* Standups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Standups.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9655FD297FE0B4001BACCC /* StandupsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsApp.swift; sourceTree = "<group>"; };
-		0A9655FF297FE0B4001BACCC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0A965601297FE0B5001BACCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A965603297FE0B5001BACCC /* Standups.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Standups.entitlements; sourceTree = "<group>"; };
 		0A965605297FE0B5001BACCC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0A96560B297FE0B5001BACCC /* StandupsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StandupsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A96560F297FE0B5001BACCC /* StandupsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsTests.swift; sourceTree = "<group>"; };
-		0A965615297FE0B5001BACCC /* StandupsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StandupsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A965628297FE1A7001BACCC /* StandupsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupsList.swift; sourceTree = "<group>"; };
+		0A96562A297FE24D001BACCC /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,13 +46,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0A965608297FE0B5001BACCC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A965612297FE0B5001BACCC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -82,7 +69,6 @@
 			children = (
 				0A9655FA297FE0B4001BACCC /* Standups.app */,
 				0A96560B297FE0B5001BACCC /* StandupsTests.xctest */,
-				0A965615297FE0B5001BACCC /* StandupsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,7 +77,8 @@
 			isa = PBXGroup;
 			children = (
 				0A9655FD297FE0B4001BACCC /* StandupsApp.swift */,
-				0A9655FF297FE0B4001BACCC /* ContentView.swift */,
+				0A965628297FE1A7001BACCC /* StandupsList.swift */,
+				0A96562A297FE24D001BACCC /* Models.swift */,
 				0A965601297FE0B5001BACCC /* Assets.xcassets */,
 				0A965603297FE0B5001BACCC /* Standups.entitlements */,
 				0A965604297FE0B5001BACCC /* Preview Content */,
@@ -153,24 +140,6 @@
 			productReference = 0A96560B297FE0B5001BACCC /* StandupsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		0A965614297FE0B5001BACCC /* StandupsUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A965625297FE0B5001BACCC /* Build configuration list for PBXNativeTarget "StandupsUITests" */;
-			buildPhases = (
-				0A965611297FE0B5001BACCC /* Sources */,
-				0A965612297FE0B5001BACCC /* Frameworks */,
-				0A965613297FE0B5001BACCC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0A965617297FE0B5001BACCC /* PBXTargetDependency */,
-			);
-			name = StandupsUITests;
-			productName = StandupsUITests;
-			productReference = 0A965615297FE0B5001BACCC /* StandupsUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,10 +154,6 @@
 						CreatedOnToolsVersion = 14.2;
 					};
 					0A96560A297FE0B5001BACCC = {
-						CreatedOnToolsVersion = 14.2;
-						TestTargetID = 0A9655F9297FE0B4001BACCC;
-					};
-					0A965614297FE0B5001BACCC = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 0A9655F9297FE0B4001BACCC;
 					};
@@ -209,7 +174,6 @@
 			targets = (
 				0A9655F9297FE0B4001BACCC /* Standups */,
 				0A96560A297FE0B5001BACCC /* StandupsTests */,
-				0A965614297FE0B5001BACCC /* StandupsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -231,13 +195,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A965613297FE0B5001BACCC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -245,8 +202,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A965600297FE0B4001BACCC /* ContentView.swift in Sources */,
+				0A96562B297FE24D001BACCC /* Models.swift in Sources */,
 				0A9655FE297FE0B4001BACCC /* StandupsApp.swift in Sources */,
+				0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,13 +216,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A965611297FE0B5001BACCC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -272,11 +223,6 @@
 			isa = PBXTargetDependency;
 			target = 0A9655F9297FE0B4001BACCC /* Standups */;
 			targetProxy = 0A96560C297FE0B5001BACCC /* PBXContainerItemProxy */;
-		};
-		0A965617297FE0B5001BACCC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A9655F9297FE0B4001BACCC /* Standups */;
-			targetProxy = 0A965616297FE0B5001BACCC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -514,50 +460,6 @@
 			};
 			name = Release;
 		};
-		0A965626297FE0B5001BACCC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J8A5ZAM5GV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.oluwatobiomotayo.StandupsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Standups;
-			};
-			name = Debug;
-		};
-		0A965627297FE0B5001BACCC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J8A5ZAM5GV;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.oluwatobiomotayo.StandupsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Standups;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -584,15 +486,6 @@
 			buildConfigurations = (
 				0A965623297FE0B5001BACCC /* Debug */,
 				0A965624297FE0B5001BACCC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A965625297FE0B5001BACCC /* Build configuration list for PBXNativeTarget "StandupsUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A965626297FE0B5001BACCC /* Debug */,
-				0A965627297FE0B5001BACCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
