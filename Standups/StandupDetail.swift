@@ -1,10 +1,28 @@
 import SwiftUI
+import SwiftUINavigation
 
 class StandupDetailModel: ObservableObject {
+	@Published var destination: Destination?
 	@Published var standup: Standup
 	
-	init(standup: Standup) {
+	enum Destination {
+		case meeting(Meeting)
+	}
+	
+	init(
+		destination: Destination? = nil,
+		standup: Standup
+	) {
+		self.destination = destination
 		self.standup = standup
+	}
+	
+	func deleteMeetings(atOffsets indices: IndexSet) {
+		self.standup.meetings.remove(atOffsets: indices)
+	}
+	
+	func meetingTapped(_ meeting: Meeting) {
+		self.destination = .meeting(meeting)
 	}
 }
 
@@ -48,6 +66,7 @@ struct StandupDetailView: View {
 				Section {
 					ForEach(self.model.standup.meetings) { meeting in
 						Button {
+							self.model.meetingTapped(meeting)
 						} label: {
 							HStack {
 								Image(systemName: "calendar")
@@ -57,6 +76,7 @@ struct StandupDetailView: View {
 						}
 					}
 					.onDelete { indices in
+						self.model.deleteMeetings(atOffsets: indices)
 					}
 				} header: {
 					Text("Past meetings")
@@ -79,6 +99,12 @@ struct StandupDetailView: View {
 			}
 		}
 		.navigationTitle(self.model.standup.title)
+		.navigationDestination(
+			unwrapping: self.$model.destination,
+			case: /StandupDetailModel.Destination.meeting,
+			destination: { $meeting in
+				MeetingView(meeting: meeting, standup: self.model.standup)
+			})
 		.toolbar {
 			Button("Edit") {
 			}
