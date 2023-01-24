@@ -7,6 +7,7 @@ final class StandupsListModel: ObservableObject {
 	
 	enum Destination {
 		case add(EditStandupModel)
+		case detail(StandupDetailModel)
 	}
 	
 	init(
@@ -41,6 +42,10 @@ final class StandupsListModel: ObservableObject {
 		
 		self.standups.append(standup)
 	}
+	
+	func standupTapped(standup: Standup) {
+		self.destination = .detail(StandupDetailModel(standup: standup))
+	}
 }
 
 struct StandupsList: View {
@@ -51,8 +56,12 @@ struct StandupsList: View {
 		NavigationStack {
 			List {
 				ForEach(self.model.standups) { standup in
-					CardView(standup: standup)
-						.listRowBackground(standup.theme.mainColor)
+					Button(action: {
+						self.model.standupTapped(standup: standup)
+					}, label: {
+						CardView(standup: standup)
+					})
+					.listRowBackground(standup.theme.mainColor)
 				}
 			}
 			.toolbar {
@@ -84,6 +93,12 @@ struct StandupsList: View {
 						}
 				}
 			}
+			.navigationDestination(
+				unwrapping: self.$model.destination,
+				case: /StandupsListModel.Destination.detail,
+				destination: { $model in
+					StandupDetailView(model: model)
+				})
 		}
 	}
 }
@@ -124,7 +139,7 @@ struct TrailingIconLabelStyle: LabelStyle {
 			configuration.icon
 		}
 	}
-}
+} 
 
 extension LabelStyle where Self == TrailingIconLabelStyle {
 	static var trailingIcon: Self { Self() }

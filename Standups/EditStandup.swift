@@ -29,7 +29,8 @@ class EditStandupModel: ObservableObject {
 				Attendee(id: Attendee.ID(UUID()), name: "")
 			)
 		}
-		self.focus = .attendee(self.standup.attendees[indices.first!].id)
+		let index = min(indices.first!, self.standup.attendees.count - 1 )
+		self.focus = .attendee(self.standup.attendees[index].id)
 	}
 	
 	func addAttendeeButtonTapped() {
