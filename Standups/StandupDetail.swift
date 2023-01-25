@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftUINavigation
 import XCTestDynamicOverlay
 
+@MainActor
 class StandupDetailModel: ObservableObject {
 	@Published var destination: Destination? {
 		didSet {
@@ -35,8 +36,23 @@ class StandupDetailModel: ObservableObject {
 	private func bind() {
 		switch self.destination {
 		case let .record(recordMeetingModel):
-			recordMeetingModel.onMeetingFinished = { [weak self] in
+			recordMeetingModel.onMeetingFinished = { [weak self] transcript in
 				guard let self else { return }
+				
+				Task {
+					try? await Task.sleep(for: .milliseconds(400))
+					// withAnimation(.default.delay(<#T##delay: Double##Double#>)) { // doesn't play well with List and Form views.
+					withAnimation {
+						_ = self.standup.meetings.insert(
+							Meeting(
+								id: Meeting.ID(UUID()),
+								date: Date(),
+								transcript: transcript
+							),
+							at: 0
+						)
+					}
+				}
 				self.destination = nil
 			}
 			

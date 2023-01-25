@@ -95,7 +95,7 @@ extension Standup {
 			Attendee(id: Attendee.ID(UUID()), name: "Blob III"),
 			Attendee(id: Attendee.ID(UUID()), name: "Blob I"),
 		],
-		duration: .seconds(60),
+		duration: .seconds(6),
 		meetings: [
 			Meeting(
 				id: Meeting.ID(UUID()),

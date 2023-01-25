@@ -21,6 +21,7 @@
 		0A9656392980391B001BACCC /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9656382980391B001BACCC /* MeetingView.swift */; };
 		0A96563C298101F6001BACCC /* IdentifiedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 0A96563B298101F6001BACCC /* IdentifiedCollections */; };
 		0A96563E298106DC001BACCC /* RecordMeeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96563D298106DC001BACCC /* RecordMeeting.swift */; };
+		0A96564029812E39001BACCC /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A96563F29812E39001BACCC /* Speech.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		0A965636298031DA001BACCC /* StandupDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandupDetail.swift; sourceTree = "<group>"; };
 		0A9656382980391B001BACCC /* MeetingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingView.swift; sourceTree = "<group>"; };
 		0A96563D298106DC001BACCC /* RecordMeeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordMeeting.swift; sourceTree = "<group>"; };
+		0A96563F29812E39001BACCC /* Speech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Speech.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				0A9656382980391B001BACCC /* MeetingView.swift */,
 				0A96562A297FE24D001BACCC /* Models.swift */,
 				0A96563D298106DC001BACCC /* RecordMeeting.swift */,
+				0A96563F29812E39001BACCC /* Speech.swift */,
 				0A965636298031DA001BACCC /* StandupDetail.swift */,
 				0A9655FD297FE0B4001BACCC /* StandupsApp.swift */,
 				0A965628297FE1A7001BACCC /* StandupsList.swift */,
@@ -240,6 +243,7 @@
 				0A96563E298106DC001BACCC /* RecordMeeting.swift in Sources */,
 				0A965629297FE1A7001BACCC /* StandupsList.swift in Sources */,
 				0A965637298031DA001BACCC /* StandupDetail.swift in Sources */,
+				0A96564029812E39001BACCC /* Speech.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +389,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "To transcribe meeting notes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -424,6 +429,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "To transcribe meeting notes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
