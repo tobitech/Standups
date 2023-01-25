@@ -10,6 +10,7 @@ class StandupDetailModel: ObservableObject {
 	
 	enum Destination {
 		case alert(AlertState<AlertAction>)
+		case edit(EditStandupModel)
 		case meeting(Meeting)
 	}
 	
@@ -42,6 +43,21 @@ class StandupDetailModel: ObservableObject {
 		case .confirmDeletion:
 			self.onConfirmDeletion()
 		}
+	}
+	
+	func editButtonTapped() {
+		self.destination = .edit(EditStandupModel(standup: self.standup))
+	}
+	
+	func cancelEditButtonTapped() {
+		self.destination = nil
+	}
+	
+	func doneEditingButtonTapped() {
+		defer { self.destination = nil }
+		
+		guard case let .edit(model) = self.destination else { return }
+		self.standup = model.standup
 	}
 }
 
@@ -132,6 +148,7 @@ struct StandupDetailView: View {
 		.navigationTitle(self.model.standup.title)
 		.toolbar {
 			Button("Edit") {
+				self.model.editButtonTapped()
 			}
 		}
 		.navigationDestination(
@@ -141,6 +158,27 @@ struct StandupDetailView: View {
 				MeetingView(meeting: meeting, standup: self.model.standup)
 			}
 		)
+		.sheet(
+			unwrapping: self.$model.destination,
+			case: /StandupDetailModel.Destination.edit
+		) { $model in
+			NavigationStack {
+				EditStandupView(model: model)
+					.navigationTitle("Edit standup")
+					.toolbar {
+						ToolbarItem(placement: .cancellationAction) {
+							Button("Cancel") {
+								self.model.cancelEditButtonTapped()
+							}
+						}
+						ToolbarItem(placement: .confirmationAction) {
+							Button("Done") {
+								self.model.doneEditingButtonTapped()
+							}
+						}
+					}
+			}
+		}
 		.alert(
 			unwrapping: self.$model.destination,
 			case: /StandupDetailModel.Destination.alert) { action in

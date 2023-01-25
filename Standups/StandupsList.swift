@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 import SwiftUINavigation
 
@@ -6,6 +7,8 @@ final class StandupsListModel: ObservableObject {
 		didSet { self.bind() }
 	}
 	@Published var standups: [Standup]
+	
+	private var destinationCancellable: AnyCancellable?
 	
 	enum Destination {
 		case add(EditStandupModel)
@@ -32,7 +35,14 @@ final class StandupsListModel: ObservableObject {
 					self.destination = nil
 				}
 			}
-			break
+			
+			self.destinationCancellable =  standupDetailModel.$standup
+				.sink { [weak self] standup in
+					guard let self else { return }
+					guard let index = self.standups.firstIndex(where: { $0.id == standup.id }) else { return }
+					
+					self.standups[index] = standup
+				}
 			
 		case .add, .none:
 			break
