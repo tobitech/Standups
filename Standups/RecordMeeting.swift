@@ -1,3 +1,5 @@
+import Clocks
+import Dependencies
 @preconcurrency import Speech
 import SwiftUI
 import SwiftUINavigation
@@ -12,6 +14,9 @@ class RecordMeetingModel: ObservableObject {
 	@Published var speakerIndex = 0
 	
 	private var transcript = ""
+	// private var clock: any Clock<Duration>
+	
+	@Dependency(\.continuousClock) var clock
 	
 	var durationRemaining: Duration {
 		self.standup.duration - .seconds(self.secondsElapsed)
@@ -41,9 +46,11 @@ class RecordMeetingModel: ObservableObject {
 	}
 	
 	init(
+		// clock: any Clock<Duration> = ContinuousClock(),
 		destination: Destination? = nil,
 		standup: Standup
 	) {
+		// self.clock = clock
 		self.destination = destination
 		self.standup = standup
 	}
@@ -105,9 +112,11 @@ class RecordMeetingModel: ObservableObject {
 	}
 	
 	private func startTimer() async throws {
-		while true {
-			try await Task.sleep(for: .seconds(1))
-			guard !self.isAlertOpen else { continue }
+		// while true {
+			// try await Task.sleep(for: .seconds(1))
+			// try await self.clock.sleep(for: .seconds(1)) .sleep is not so accurate, it adds very little time that end up piling up.
+		for await _ in self.clock.timer(interval: .seconds(1)) where !self.isAlertOpen { // this is much more precise.
+			// guard !self.isAlertOpen else { continue } replaced by where clause in async sequenc
 			self.secondsElapsed += 1
 			
 			if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {

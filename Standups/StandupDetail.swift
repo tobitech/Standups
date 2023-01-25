@@ -1,3 +1,5 @@
+import Clocks
+import Dependencies
 import SwiftUI
 import SwiftUINavigation
 import XCTestDynamicOverlay
@@ -24,10 +26,15 @@ class StandupDetailModel: ObservableObject {
 		 case confirmDeletion
 	}
 	
+	// private let clock: any Clock<Duration>
+	@Dependency(\.continuousClock) var clock
+	
 	init(
+		// clock: any Clock<Duration> = ContinuousClock(),
 		destination: Destination? = nil,
 		standup: Standup
 	) {
+		// self.clock = clock
 		self.destination = destination
 		self.standup = standup
 		self.bind()
@@ -40,7 +47,7 @@ class StandupDetailModel: ObservableObject {
 				guard let self else { return }
 				
 				Task {
-					try? await Task.sleep(for: .milliseconds(400))
+					try? await self.clock.sleep(for: .milliseconds(400))
 					// withAnimation(.default.delay(<#T##delay: Double##Double#>)) { // doesn't play well with List and Form views.
 					withAnimation {
 						_ = self.standup.meetings.insert(
