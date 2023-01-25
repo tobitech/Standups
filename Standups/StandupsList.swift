@@ -11,6 +11,8 @@ final class StandupsListModel: ObservableObject {
 	@Published var standups: IdentifiedArrayOf<Standup>
 	
 	private var destinationCancellable: AnyCancellable?
+	// we are using a set because this is going to live on for the entirety of the life time of the application.
+	private var cancellables: Set<AnyCancellable> = []
 	
 	enum Destination {
 		case add(EditStandupModel)
@@ -18,11 +20,29 @@ final class StandupsListModel: ObservableObject {
 	}
 	
 	init(
-		destination: Destination? = nil,
-		standups: IdentifiedArrayOf<Standup> = []
+		destination: Destination? = nil
 	) {
 		self.destination = destination
-		self.standups = standups
+		self.standups = []
+		
+		do {
+			self.standups = try JSONDecoder().decode(
+				IdentifiedArray.self,
+				from: Data(contentsOf: .standups)
+			)
+		} catch { }
+		
+		self.$standups
+			.dropFirst()
+		// we're debouncing so that if it emits multiple times, we can wait for a while before saving the last emitted value.
+			.debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+			.sink { standups in
+				do {
+					try JSONEncoder().encode(standups).write(to: .standups)
+				} catch {}
+			}
+			.store(in: &self.cancellables)
+		
 		self.bind()
 	}
 	
@@ -80,6 +100,10 @@ final class StandupsListModel: ObservableObject {
 	func standupTapped(standup: Standup) {
 		self.destination = .detail(StandupDetailModel(standup: standup))
 	}
+}
+
+extension URL {
+	static let standups = Self.documentsDirectory.appending(component: "standups.json")
 }
 
 struct StandupsList: View {
@@ -181,6 +205,6 @@ extension LabelStyle where Self == TrailingIconLabelStyle {
 
 struct StandupsList_Previews: PreviewProvider {
 	static var previews: some View {
-		StandupsList(model: StandupsListModel(standups: [.mock]))
+		StandupsList(model: StandupsListModel())
 	}
 }
