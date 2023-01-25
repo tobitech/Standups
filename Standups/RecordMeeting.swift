@@ -1,8 +1,10 @@
 import SwiftUI
+import SwiftUINavigation
 import XCTestDynamicOverlay
 
 class RecordMeetingModel: ObservableObject {
 	
+	@Published var destination: Destination?
 	@Published var dismiss = false
 	@Published var secondsElapsed = 0
 	@Published var speakerIndex = 0
@@ -15,18 +17,56 @@ class RecordMeetingModel: ObservableObject {
 	
 	let standup: Standup
 	
+	enum Destination {
+		case alert(AlertState<AlertAction>)
+	}
+	
+	enum AlertAction {
+		case confirmSave
+		case confirmDiscard
+	}
+	
+	var isAlertOpen: Bool {
+		switch self.destination {
+		case .alert:
+			return true
+			
+		case .none:
+			return false
+		}
+	}
+	
 	init(
+		destination: Destination? = nil,
 		standup: Standup
 	) {
+		self.destination = destination
 		self.standup = standup
 	}
 	
 	func nextButtonTapped() {
+		guard self.speakerIndex < self.standup.attendees.count - 1 else {
+			// self.onMeetingFinished()
+			// self.dismiss = true
+			self.destination = .alert(
+				AlertState(
+					title: TextState("End meeting?"),
+					message: TextState("You're ending the meeting early, what would you like to do?"),
+					buttons: [
+						.default(TextState("Save and end"), action: .send(.confirmSave)),
+						.cancel(TextState("Resume"))
+					]
+				)
+			)
+			return
+		}
 		
+		self.speakerIndex += 1
+		self.secondsElapsed = self.speakerIndex * Int(self.standup.durationPerAttendee.components.seconds)
 	}
 	
 	func endMeetingButtonTapped() {
-		
+		self.destination = .alert(.endMeeting )
 	}
 	
 	@MainActor
@@ -34,6 +74,7 @@ class RecordMeetingModel: ObservableObject {
 		do {
 			while true {
 				try await Task.sleep(for: .seconds(1))
+				guard !self.isAlertOpen else { continue }
 				self.secondsElapsed += 1
 				
 				if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {
@@ -47,6 +88,29 @@ class RecordMeetingModel: ObservableObject {
 			}
 		} catch {}
 	}
+	
+	func alertButtonTapped(_ action: AlertAction) {
+		switch action {
+		case .confirmSave:
+			self.onMeetingFinished()
+			self.dismiss = true
+			
+		case .confirmDiscard:
+			self.dismiss = true
+		}
+	}
+}
+
+extension AlertState where Action == RecordMeetingModel.AlertAction {
+	static let endMeeting = Self(
+		title: TextState("End meeting?"),
+		message: TextState("You're ending the meeting early, what would you like to do?"),
+		buttons: [
+			.default(TextState("Save and end"), action: .send(.confirmSave)),
+			.destructive(TextState("Save and discard"), action: .send(.confirmDiscard)),
+			.cancel(TextState("Resume"))
+		]
+	)
 }
 
 struct RecordMeetingView: View {
@@ -88,6 +152,11 @@ struct RecordMeetingView: View {
 		.navigationBarBackButtonHidden(true)
 		.task { await self.model.task() }
 		.onChange(of: self.model.dismiss) { _ in self.dismiss() }
+		.alert(
+			unwrapping: self.$model.destination,
+			case: /RecordMeetingModel.Destination.alert,
+			action: { action in self.model.alertButtonTapped(action) }
+		)
 	}
 }
 

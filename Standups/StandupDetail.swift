@@ -87,12 +87,12 @@ class StandupDetailModel: ObservableObject {
 extension AlertState where Action == StandupDetailModel.AlertAction {
 	static let delete = Self(
 		title: TextState("Delete?"),
-			message: TextState("Are you sure you want to delete this meeting?"),
-			buttons: [
-				.destructive(TextState("Yes"), action: .send(.confirmDeletion)),
-				.cancel(TextState("Nevermind"))
-			]
-		)
+		message: TextState("Are you sure you want to delete this meeting?"),
+		buttons: [
+			.destructive(TextState("Yes"), action: .send(.confirmDeletion)),
+			.cancel(TextState("Nevermind"))
+		]
+	)
 }
 
 struct StandupDetailView: View {
