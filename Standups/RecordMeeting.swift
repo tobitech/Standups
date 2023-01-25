@@ -1,12 +1,17 @@
 import SwiftUI
+import XCTestDynamicOverlay
 
 class RecordMeetingModel: ObservableObject {
+	
+	@Published var dismiss = false
 	@Published var secondsElapsed = 0
 	@Published var speakerIndex = 0
 	
 	var durationRemaining: Duration {
 		self.standup.duration - .seconds(self.secondsElapsed)
 	}
+	
+	var onMeetingFinished: () -> Void = unimplemented("RecordMeetingModel.onMeetingFinished")
 	
 	let standup: Standup
 	
@@ -23,9 +28,29 @@ class RecordMeetingModel: ObservableObject {
 	func endMeetingButtonTapped() {
 		
 	}
+	
+	@MainActor
+	func task() async {
+		do {
+			while true {
+				try await Task.sleep(for: .seconds(1))
+				self.secondsElapsed += 1
+				
+				if self.secondsElapsed.isMultiple(of: Int(self.standup.durationPerAttendee.components.seconds)) {
+					if self.speakerIndex == self.standup.attendees.count - 1 {
+						self.onMeetingFinished()
+						self.dismiss = true
+						break
+					}
+					self.speakerIndex += 1
+				}
+			}
+		} catch {}
+	}
 }
 
 struct RecordMeetingView: View {
+	@Environment(\.dismiss) var dismiss
 	@ObservedObject var model: RecordMeetingModel
 
 	var body: some View {
@@ -61,6 +86,8 @@ struct RecordMeetingView: View {
 			}
 		}
 		.navigationBarBackButtonHidden(true)
+		.task { await self.model.task() }
+		.onChange(of: self.model.dismiss) { _ in self.dismiss() }
 	}
 }
 
