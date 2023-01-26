@@ -21,8 +21,8 @@ extension DataManager: DependencyKey {
 }
 
 extension DataManager {
-	static var mock: DataManager {
-		let data = LockIsolated(Data()) // LockIsolated helps turn non-sendable data to sendable data.
+	static func mock(initialData: Data = Data()) -> DataManager {
+		let data = LockIsolated(initialData) // LockIsolated helps turn non-sendable data to sendable data.
 		return DataManager(
 			load: { _ in data.value },
 			// save: { newData, _ in data = newData }

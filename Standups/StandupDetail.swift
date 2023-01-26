@@ -89,7 +89,20 @@ class StandupDetailModel: ObservableObject {
 	
 	func editButtonTapped() {
 		self.destination = .edit(EditStandupModel(standup: self.standup))
+//		self.destination = .edit(
+//			EditStandupModel(
+//				standup: Standup(
+//					id: Standup.ID(UUID()),
+//					attendees: self.standup.attendees,
+//					duration: self.standup.duration,
+//					meetings: self.standup.meetings,
+//					theme: self.standup.theme,
+//					title: self.standup.title
+//				)
+//			)
+//		)
 	}
+	
 	
 	func cancelEditButtonTapped() {
 		self.destination = nil
