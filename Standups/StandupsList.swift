@@ -1,4 +1,5 @@
 import Combine
+import Dependencies
 import IdentifiedCollections
 import SwiftUI
 import SwiftUINavigation
@@ -19,6 +20,8 @@ final class StandupsListModel: ObservableObject {
 		case detail(StandupDetailModel)
 	}
 	
+	@Dependency(\.mainQueue) var mainQueue
+	
 	init(
 		destination: Destination? = nil
 	) {
@@ -35,7 +38,7 @@ final class StandupsListModel: ObservableObject {
 		self.$standups
 			.dropFirst()
 		// we're debouncing so that if it emits multiple times, we can wait for a while before saving the last emitted value.
-			.debounce(for: .seconds(1), scheduler: DispatchQueue.main)
+			.debounce(for: .seconds(1), scheduler: self.mainQueue)
 			.sink { standups in
 				do {
 					try JSONEncoder().encode(standups).write(to: .standups)
