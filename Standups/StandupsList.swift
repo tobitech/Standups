@@ -4,6 +4,40 @@ import IdentifiedCollections
 import SwiftUI
 import SwiftUINavigation
 
+struct DataManager: Sendable {
+	var load: @Sendable (URL) throws -> Data
+	var save: @Sendable (Data, URL) throws -> Void
+}
+
+extension DataManager: DependencyKey {
+	static let liveValue = DataManager(
+		load: { url in
+			try Data(contentsOf: url)
+		},
+		save: { data, url in
+			try data.write(to: url)
+		}
+	)
+}
+
+extension DataManager {
+	static var mock: DataManager {
+		let data = LockIsolated(Data()) // LockIsolated helps turn non-sendable data to sendable data.
+		return DataManager(
+			load: { _ in data.value },
+			// save: { newData, _ in data = newData }
+			save: { newData, _ in data.setValue(newData) }
+		)
+	}
+}
+
+extension DependencyValues {
+	var dataManager: DataManager {
+		get { self[DataManager.self] }
+		set { self[DataManager.self] = newValue }
+	}
+}
+
 @MainActor
 final class StandupsListModel: ObservableObject {
 	@Published var destination: Destination? {
@@ -20,6 +54,7 @@ final class StandupsListModel: ObservableObject {
 		case detail(StandupDetailModel)
 	}
 	
+	@Dependency(\.dataManager) var dataManager
 	@Dependency(\.mainQueue) var mainQueue
 	
 	init(
@@ -31,7 +66,7 @@ final class StandupsListModel: ObservableObject {
 		do {
 			self.standups = try JSONDecoder().decode(
 				IdentifiedArray.self,
-				from: Data(contentsOf: .standups)
+				from: self.dataManager.load(.standups)
 			)
 		} catch { }
 		
@@ -39,9 +74,10 @@ final class StandupsListModel: ObservableObject {
 			.dropFirst()
 		// we're debouncing so that if it emits multiple times, we can wait for a while before saving the last emitted value.
 			.debounce(for: .seconds(1), scheduler: self.mainQueue)
-			.sink { standups in
+			.sink { [weak self] standups in
+				guard let self else { return }
 				do {
-					try JSONEncoder().encode(standups).write(to: .standups)
+					try self.dataManager.save(JSONEncoder().encode(standups), .standups)
 				} catch {}
 			}
 			.store(in: &self.cancellables)

@@ -5,16 +5,17 @@ import XCTest
 @MainActor
 class StandupsListTests: XCTestCase {
 	
-	override func setUp() {
-		super.setUp()
-		
-		try? FileManager.default.removeItem(at: .documentsDirectory.appending(component: "standups.json"))
-	}
+//	override func setUp() {
+//		super.setUp()
+//
+//		try? FileManager.default.removeItem(at: .documentsDirectory.appending(component: "standups.json"))
+//	}
 	
 	func testPersistence() async throws {
 		
 		let mainQueue = DispatchQueue.test
 		withDependencies {
+			$0.dataManager = .mock
 			$0.mainQueue = mainQueue.eraseToAnyScheduler()
 		} operation: {
 			let listModel = StandupsListModel()
@@ -31,6 +32,19 @@ class StandupsListTests: XCTestCase {
 			
 			let nextLaunchListModel = StandupsListModel()
 			XCTAssertEqual(nextLaunchListModel.standups.count, 1)
+		}
+	}
+	
+	func testEdit() {
+		let mainQueue = DispatchQueue.test
+		withDependencies {
+			$0.mainQueue = mainQueue.eraseToAnyScheduler()
+		} operation: {
+			let listModel = StandupsListModel()
+			
+			listModel.addStandupButtonTapped()
+			listModel.confirmAddStandupButtonTapped()
+			XCTAssertEqual(listModel.standups.count, 1)
 		}
 
 	}
